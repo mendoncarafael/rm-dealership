@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="page_title">RM Dealership - Premium Dealership</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Container Principal da Aplicação -->
+    <div id="app" class="app-wrapper hidden">
+        <!-- Painel Principal -->
+        <div id="mainDashboard" class="dashboard">
+            <!-- Barra de Navegação Superior -->
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-car-side"></i>
+                    </div>
+                    <div class="brand-info">
+                        <h1 data-translate="dealership">Dealership</h1>
+                    </div>
+                </div>
+
+                <div class="nav-center">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="globalSearch" data-translate-placeholder="search_placeholder" placeholder="Search vehicles..." autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="nav-actions">
+                    <div class="user-balance">
+                        <i class="fas fa-wallet"></i>
+                        <span id="playerMoney">$0</span>
+                    </div>
+                    <button class="nav-btn" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="nav-btn close-btn" id="closeApp">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Área de Conteúdo Principal -->
+            <main class="main-container">
+                <!-- Navegação da Barra Lateral -->
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <h3 data-translate="categories">Categories</h3>
+                        <button class="filter-toggle" id="filterToggle">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
+
+                    <!-- Filtro de Categoria -->
+                    <div class="category-section">
+                        <div class="category-item active" data-category="all">
+                            <i class="fas fa-th-large"></i>
+                            <span data-translate="all_vehicles">All Vehicles</span>
+                            <span class="count" id="allCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="compacts">
+                            <i class="fas fa-car-side"></i>
+                            <span data-translate="compacts">Compacts</span>
+                            <span class="count" id="compactsCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="sedans">
+                            <i class="fas fa-car"></i>
+                            <span data-translate="sedans">Sedans</span>
+                            <span class="count" id="sedansCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="suvs">
+                            <i class="fas fa-truck"></i>
+                            <span data-translate="suvs">SUVs</span>
+                            <span class="count" id="suvsCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="coupes">
+                            <i class="fas fa-car-alt"></i>
+                            <span data-translate="coupes">Coupes</span>
+                            <span class="count" id="coupesCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="muscle">
+                            <i class="fas fa-shipping-fast"></i>
+                            <span data-translate="muscle">Muscle Cars</span>
+                            <span class="count" id="muscleCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="sportsclassics">
+                            <i class="fas fa-trophy"></i>
+                            <span data-translate="sports_classics">Sports Classics</span>
+                            <span class="count" id="sportsclassicsCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="sports">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span data-translate="sports">Sports</span>
+                            <span class="count" id="sportsCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="super">
+                            <i class="fas fa-rocket"></i>
+                            <span data-translate="super">Super Cars</span>
+                            <span class="count" id="superCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="motorcycles">
+                            <i class="fas fa-motorcycle"></i>
+                            <span data-translate="motorcycles">Motorcycles</span>
+                            <span class="count" id="motorcyclesCount">0</span>
+                        </div>
+                        <div class="category-item" data-category="offroad">
+                            <i class="fas fa-mountain"></i>
+                            <span data-translate="off_road">Off-Road</span>
+                            <span class="count" id="offroadCount">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Filtros Avançados -->
+                    <div class="filters-section">
+                        <h4 data-translate="filters">Filters</h4>
+                        
+                        <div class="filter-group">
+                            <label data-translate="price_range">Price Range</label>
+                            <div class="price-range-wrapper">
+                                <input type="range" id="priceRange" min="0" max="5000000" value="5000000" class="range-slider">
+                                <div class="price-labels">
+                                    <span>$0</span>
+                                    <span id="maxPriceLabel">$5,000,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label data-translate="sort_by">Sort By</label>
+                            <select id="sortFilter" class="filter-select">
+                                <option value="name" data-translate="sort_name">Name A-Z</option>
+                                <option value="price-low" data-translate="sort_price_low">Price: Low to High</option>
+                                <option value="price-high" data-translate="sort_price_high">Price: High to Low</option>
+                                <option value="category" data-translate="sort_category">Category</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="reset-filters" id="resetFilters">
+                                <i class="fas fa-undo"></i>
+                                <span data-translate="clear_filters">Clear Filters</span>
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Área de Conteúdo -->
+                <section class="content-area">
+                    <!-- Cabeçalho do Conteúdo -->
+                    <header class="content-header">
+                        <div class="header-left">
+                            <h2 id="sectionTitle" data-translate="all_vehicles">All Vehicles</h2>
+                            <p id="vehicleCount" class="vehicle-count" data-translate="loading_vehicles">Loading vehicles...</p>
+                        </div>
+                        <div class="header-right">
+                            <div class="view-controls">
+                                <button class="view-btn active" data-view="grid" id="gridView">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list" id="listView">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                            <!-- Admin button disabled -->
+                            <!--
+                            <button class="admin-btn" id="adminBtn">
+                                <i class="fas fa-user-shield"></i>
+                                <span data-translate="admin">Admin</span>
+                            </button>
+                            -->
+                        </div>
+                    </header>
+
+                    <!-- Grade de Veículos -->
+                    <div class="vehicles-container">
+                        <div id="vehicleGrid" class="vehicle-grid grid-view">
+                            <!-- Veículos serão carregados dinamicamente aqui -->
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Modal de Detalhes do Veículo -->
+        <div id="vehicleModal" class="modal-overlay hidden">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h3 id="modalVehicleName" data-translate="vehicle_details">Vehicle Details</h3>
+                        <span id="modalVehicleCategory" class="category-badge" data-translate="category">Category</span>
+                    </div>
+                    <button class="modal-close" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-content">
+                    <div class="modal-left">
+                        <div class="vehicle-showcase">
+                            <img id="modalVehicleImage" src="" alt="" class="showcase-image">
+                            <div class="showcase-overlay">
+                            </div>
+                        </div>
+                        
+                        <div class="vehicle-specs">
+                            <h4 data-translate="vehicle_stats">Specifications</h4>
+                            <div class="specs-grid">
+                                <div class="spec-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span data-translate="top_speed">Top Speed</span>
+                                    <strong id="modalTopSpeed">--</strong>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span data-translate="acceleration">Acceleration</span>
+                                    <strong id="modalAcceleration">--</strong>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span data-translate="handling">Handling</span>
+                                    <strong id="modalHandling">--</strong>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span data-translate="fuel_type">Fuel Type</span>
+                                    <strong id="modalFuelType">Gasoline</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-right">
+                        <div class="pricing-section">
+                            <div class="price-display">
+                                <span class="price-label" data-translate="vehicle_price">Price</span>
+                                <span id="modalVehiclePrice" class="price-value">$0</span>
+                            </div>
+                            <div id="discountInfo" class="discount-info hidden">
+                                <span class="discount-label">
+                                    <span data-translate="vip_discount">VIP Discount</span> 
+                                    <span id="vipType">VIP</span> 
+                                    (<span id="vipPercent">0%</span>) 
+                                    <span data-translate="applied">Applied</span>
+                                </span>
+                                <span id="discountAmount" class="discount-value">-$0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="description-section">
+                            <h4 data-translate="vehicle_description">Description</h4>
+                            <p id="modalVehicleDescription">Vehicle description will appear here.</p>
+                        </div>
+                        
+                        <div class="stock-info">
+                            <div class="stock-indicator">
+                                <i id="stockIcon" class="fas fa-check-circle"></i>
+                                <span id="stockStatus" data-translate="in_stock">In Stock</span>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button class="action-btn secondary" id="modalPreviewBtn">
+                                <i class="fas fa-eye"></i>
+                                <span data-translate="preview">Preview</span>
+                            </button>
+                            <button class="action-btn test-drive" id="modalTestDriveBtn">
+                                <i class="fas fa-road"></i>
+                                <span data-translate="test_drive">Test Drive</span>
+                            </button>
+                            <button class="action-btn primary" id="purchaseVehicle">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span data-translate="purchase">Purchase</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal do Painel Admin -->
+        <div id="adminModal" class="modal-overlay hidden">
+            <div class="modal-container admin-modal">
+                <div class="modal-header">
+                    <h3 data-translate="admin_panel">Admin Panel</h3>
+                    <button class="modal-close" id="closeAdminModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-content">
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" data-tab="vehicles">
+                            <i class="fas fa-car"></i>
+                            <span data-translate="vehicles">Vehicles</span>
+                        </button>
+                        <button class="admin-tab" data-tab="sales">
+                            <i class="fas fa-chart-line"></i>
+                            <span data-translate="sales">Sales</span>
+                        </button>
+                        <button class="admin-tab" data-tab="settings">
+                            <i class="fas fa-cog"></i>
+                            <span data-translate="settings">Settings</span>
+                        </button>
+                    </div>
+                    
+                    <div class="admin-content">
+                        <div id="vehiclesTab" class="admin-tab-content active">
+                            <div class="admin-actions">
+                                <button class="admin-action-btn" id="addVehicle">
+                                    <i class="fas fa-plus"></i>
+                                    <span data-translate="add_vehicle">Add Vehicle</span>
+                                </button>
+                                <button class="admin-action-btn" id="refreshStock">
+                                    <i class="fas fa-sync"></i>
+                                    <span data-translate="refresh_stock">Refresh Stock</span>
+                                </button>
+                            </div>
+                            <div id="adminVehicleList" class="admin-vehicle-list">
+                                <!-- Lista de veículos do admin será populada aqui -->
+                            </div>
+                        </div>
+                        
+                        <div id="salesTab" class="admin-tab-content">
+                            <div class="sales-overview">
+                                <div class="sales-card">
+                                    <h4 data-translate="todays_sales">Today's Sales</h4>
+                                    <span id="todaySales" class="sales-value">$0</span>
+                                </div>
+                                <div class="sales-card">
+                                    <h4 data-translate="total_sales">Total Sales</h4>
+                                    <span id="totalSales" class="sales-value">$0</span>
+                                </div>
+                                <div class="sales-card">
+                                    <h4 data-translate="vehicles_sold">Vehicles Sold</h4>
+                                    <span id="vehiclesSold" class="sales-value">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="settingsTab" class="admin-tab-content">
+                            <div class="settings-group">
+                                <label for="dealershipName" data-translate="dealership_name">Dealership Name</label>
+                                <input type="text" id="dealershipName" value="RM Dealership">
+                            </div>
+                            <div class="settings-group">
+                                <label for="vipDiscount" data-translate="vip_discount_percent">VIP Discount (%)</label>
+                                <input type="number" id="vipDiscount" value="10" min="0" max="50">
+                            </div>
+                            <button class="save-settings" id="saveSettings">
+                                <i class="fas fa-save"></i>
+                                <span data-translate="save_settings">Save Settings</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema de Notificações -->
+        <div id="notifications" class="notifications-container">
+            <!-- Notificações serão adicionadas dinamicamente aqui -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="test.js"></script>
+</body>
+</html> 
